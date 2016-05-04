@@ -48,16 +48,15 @@ module.exports = function (koop) {
       type: 'Feature',
       geometry: {
         type: 'Point',
-        coordinates: [apt.longitude, apt.latitude]
+        coordinates: [apt.Longitude, apt.Latitude]
       },
       properties: {
         title: apt.PostingTitle,
         price: parseFloat(apt.Ask),
         bedrooms: apt.Bedrooms,
         postDate: apt.PostingDate,
-        posting: 'https://' + apt.PostingUrl,
+        posting: 'https://' + apt.PostingURL,
         thumbnail: apt.ImageThumb
-
       }
     }
   }
