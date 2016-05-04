@@ -1,7 +1,7 @@
 {
-  "name": "koop-yelp",
-  "version": "0.0.2",
-  "description": "A Yelp provider for koop ",
+  "name": "koop-craigslist",
+  "version": "0.0.0",
+  "description": "A Craigslist provider for koop ",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -10,31 +10,22 @@
     "test": "mocha test/"
   },
   "dependencies": {
-    "async": "^1.5.2",
-    "config": "~1.12.0",
-    "lodash": "^4.6.1",
-    "proj4": "~2.3.3",
-    "yelp": "^1.0.1"
+    "request": "^2.72.0"
   },
   "author": "Daniel Fenton",
   "license": "BSD-2-Clause",
-  "devDependencies": {
-    "supertest": "~0.11.0",
-    "should": "~4.0.4",
-    "sinon": "~1.10.3"
-  },
+  "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com:koopjs/koop-yelp.git"
+    "url": "https://github.com:dmfenton/koop-craigslist.git"
   },
   "bugs": {
-    "url": "https://github.com/koopjs/koop-yelp/issues"
+    "url": "https://github.com/dmfenton/koop-craigslist/issues"
   },
-  "homepage": "https://github.com/koopjs/koop-zillow",
+  "homepage": "https://github.com/dmfenton/koop-craigslist",
   "keywords": [
     "koop",
-    "yelp",
-    "poi",
-    "business listings"
+    "craigslist",
+    "apartment listings"
   ]
 }
