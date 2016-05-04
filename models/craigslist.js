@@ -41,7 +41,7 @@ module.exports = function (koop) {
     return featureCollection
   }
 
-  // This function takes a single element from the yelp response and translates it to GeoJSON
+  // This function takes a single element from the craigslist response and translates it to GeoJSON
   function formatFeature (apt) {
     const loc = biz.location
     return {
@@ -61,5 +61,5 @@ module.exports = function (koop) {
       }
     }
   }
-  return yelp
+  return craigslist
 }
