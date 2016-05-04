@@ -1,5 +1,5 @@
-# Koop-Yelp
-## A provider for the Yelp business search API
+# Koop-Craiglists
+## A provider for the Craigslist Apartment search API
 
 Work in progress
 :construction:
