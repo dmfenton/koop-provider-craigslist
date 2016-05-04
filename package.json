@@ -1,6 +1,6 @@
 {
   "name": "koop-craigslist",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A Craigslist provider for koop ",
   "main": "index.js",
   "directories": {
