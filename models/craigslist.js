@@ -20,9 +20,8 @@ module.exports = function (koop) {
   }
 
   function fetch (options, callback) {
-    request('https://washingtondc.craigslist.org/jsonsearch/apa/')
-    .on('error', e => callback(e))
-    .on('response', res => {
+    request('https://washingtondc.craigslist.org/jsonsearch/apa/', (err, res, body) => {
+      if (err) return callback(err)
       const apartments = translate(res.body)
       callback(null, apartments)
     })
@@ -30,12 +29,14 @@ module.exports = function (koop) {
 
   // Map accross all elements from a Craigslist respsonse and translate it into a feature collection
   function translate (data) {
+    const list = JSON.parse(data)
     const featureCollection = {
       type: 'FeatureCollection',
       features: []
     }
-    if (data[0] && data[0][0]) {
-      const apartments = data[0][0].filter(node => { return node.Ask })
+    if (list && list[0]) {
+      console.log(list[0])
+      const apartments = list[0].filter(node => { return node.Ask })
       featureCollection.features = apartments.map(formatFeature)
     }
     return featureCollection
@@ -43,7 +44,6 @@ module.exports = function (koop) {
 
   // This function takes a single element from the craigslist response and translates it to GeoJSON
   function formatFeature (apt) {
-    const loc = biz.location
     return {
       type: 'Feature',
       geometry: {
@@ -53,7 +53,7 @@ module.exports = function (koop) {
       properties: {
         title: apt.PostingTitle,
         price: parseFloat(apt.Ask),
-        bedrooms: apt,Bedrooms,
+        bedrooms: apt.Bedrooms,
         postDate: apt.PostingDate,
         posting: 'https://' + apt.PostingUrl,
         thumbnail: apt.ImageThumb

@@ -8,7 +8,7 @@ const Controller = function (craigslist, createBaseController) {
   // use the shared code in the BaseController to create a feature service
   controller.featureServer = function (req, res) {
 		// Fetch data from Craiglists's API and translate it into geojson
-    craigslist.get(req.query, function (err, geojson) {
+    craigslist.get(req.params, req.query, function (err, geojson) {
       if (err) return res.status(500).send(err)
       // we want to handle filtered and ordering on our own, so we tell Koop to skip these steps
       req.query.skipFilter = true
