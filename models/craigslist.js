@@ -60,5 +60,9 @@ module.exports = function (koop) {
       }
     }
   }
+
+  craigslist.drop = function (options, callback) {
+    koop.cache.remove('craigslist', 'apartments:dc', {layer: 0}, callback)
+  }
   return craigslist
 }

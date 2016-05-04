@@ -18,6 +18,13 @@ const Controller = function (craigslist, createBaseController) {
     })
   }
 
+  controller.drop = function (req, res) {
+    craigslist.drop(null, e => {
+      if (e) res.status(500).json({error: e})
+      else res.status(200).json({drop: true})
+    })
+  }
+
   // return the controller so it can be used by koop
   return controller
 }
