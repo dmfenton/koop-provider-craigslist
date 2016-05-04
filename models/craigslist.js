@@ -3,15 +3,15 @@ const request = require('request').defaults({gzip: true})
 module.exports = function (koop) {
   const craigslist = {}
 
-  // This is our one public function it's job its to fetch data from Craiglist and return as a feature collection
-  craiglist.get = function (options, query, callback) {
-    koop.cache.get('craiglist', 'apartments:dc', query, (err, entry) => {
+  // This is our one public function it's job its to fetch data from craigslist and return as a feature collection
+  craigslist.get = function (options, query, callback) {
+    koop.cache.get('craigslist', 'apartments:dc', query, (err, entry) => {
       if (entry && entry[0]) {
         callback(null, entry[0])
       } else {
         fetch(options, (err, geojson) => {
           callback(err, geojson)
-          koop.cache.insert('craiglist', 'apartments:dc', geojson, 0, e => {
+          koop.cache.insert('craigslist', 'apartments:dc', geojson, 0, e => {
             if (e) console.trace(e)
           })
         })

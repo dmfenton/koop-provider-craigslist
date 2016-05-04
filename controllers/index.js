@@ -1,4 +1,4 @@
-const Controller = function (craiglist, createBaseController) {
+const Controller = function (craigslist, createBaseController) {
   const controller = createBaseController()
   // respond to the root route
   controller.index = function (req, res) {
@@ -8,7 +8,7 @@ const Controller = function (craiglist, createBaseController) {
   // use the shared code in the BaseController to create a feature service
   controller.featureServer = function (req, res) {
 		// Fetch data from Craiglists's API and translate it into geojson
-    craiglist.get(req.query, function (err, geojson) {
+    craigslist.get(req.query, function (err, geojson) {
       if (err) return res.status(500).send(err)
       // we want to handle filtered and ordering on our own, so we tell Koop to skip these steps
       req.query.skipFilter = true

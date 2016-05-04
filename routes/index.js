@@ -1,7 +1,7 @@
 module.exports = {
-  'get /craiglist': 'index',
-  'get /craiglist/apartments/:city/FeatureServer': 'featureServer',
-  'get /craiglist/apartments/:city/FeatureServer/:layer': 'featureServer',
-  'get /craiglist/apartments/:city/FeatureServer/:layer/:method': 'featureServer',
-  'post /craiglist/apartments/:city/FeatureServer/:layer/:method': 'featureServer'
+  'get /craigslist': 'index',
+  'get /craigslist/apartments/:city/FeatureServer': 'featureServer',
+  'get /craigslist/apartments/:city/FeatureServer/:layer': 'featureServer',
+  'get /craigslist/apartments/:city/FeatureServer/:layer/:method': 'featureServer',
+  'post /craigslist/apartments/:city/FeatureServer/:layer/:method': 'featureServer'
 }
