@@ -1,0 +1,40 @@
+{
+  "name": "koop-yelp",
+  "version": "0.0.2",
+  "description": "A Yelp provider for koop ",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha test/"
+  },
+  "dependencies": {
+    "async": "^1.5.2",
+    "config": "~1.12.0",
+    "lodash": "^4.6.1",
+    "proj4": "~2.3.3",
+    "yelp": "^1.0.1"
+  },
+  "author": "Daniel Fenton",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "supertest": "~0.11.0",
+    "should": "~4.0.4",
+    "sinon": "~1.10.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com:koopjs/koop-yelp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/koopjs/koop-yelp/issues"
+  },
+  "homepage": "https://github.com/koopjs/koop-zillow",
+  "keywords": [
+    "koop",
+    "yelp",
+    "poi",
+    "business listings"
+  ]
+}
