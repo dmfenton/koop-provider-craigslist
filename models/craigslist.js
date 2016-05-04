@@ -55,7 +55,7 @@ module.exports = function (koop) {
         price: parseFloat(apt.Ask),
         bedrooms: apt.Bedrooms,
         postDate: apt.PostingDate,
-        posting: 'https://' + apt.PostingURL,
+        posting: 'https:' + apt.PostingURL,
         thumbnail: apt.ImageThumb
       }
     }
