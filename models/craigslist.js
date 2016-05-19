@@ -51,7 +51,7 @@ function translate (data) {
 // This function takes a single element from the craigslist response and translates it to GeoJSON
 // TODO format based on schema types for other craiglists things like jobs
 function formatFeature (apt) {
-  return {
+  const feature =  {
     type: 'Feature',
     geometry: {
       type: 'Point',
@@ -66,6 +66,11 @@ function formatFeature (apt) {
       thumbnail: apt.ImageThumb
     }
   }
+ if (!isNaN(feature.properties.price) && !isNaN(feature.properties.bedrooms)) {
+   const ppbr = feature.properties.price / feature.properties.bedrooms
+   if (ppbr !== 0 && ppbr !== Infinity) feature.properties.pricePerBedroom = ppbr
+ }
+ return feature
 }
 
 function dateFormat (date) {
