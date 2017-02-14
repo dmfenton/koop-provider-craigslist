@@ -1,33 +1,43 @@
 'use strict'
+const ttl = 60 * 60
 const request = require('request').defaults({gzip: true})
-const types = require('../mappings/types.js')
+const types = require('./mappings/types.js')
 module.exports = function (koop) {
   // This is our one public function it's job its to fetch data from craigslist and return as a feature collection
-  this.get = function (options, query, callback) {
-    koop.cache.get('craigslist', options.cacheKey, query, (err, entry) => {
-      if (entry && entry[0]) {
-        callback(null, entry[0])
+  this.getData = function (req, callback) {
+    const key = `craigslist::${req.params.host}::${req.params.id}`
+    koop.cache.retrieve(key, req.query, (err, geojson) => {
+      if (err && /resource not found/i.test('Resource not found')) {
+        this.fetchNew(key, req.params, callback)
+      } else if (err) {
+        callback(err)
+      } else if (Date.now() > geojson.metadata.expires) {
+        this.fetchAndUpdate(key, callback)
       } else {
-        fetch(options, (err, geojson) => {
-          callback(err, geojson)
-          koop.cache.insert('craigslist', options.cacheKey, geojson, 0, e => {
-            if (e) console.trace(e)
-          })
-        })
+        callback(null, geojson)
       }
     })
   }
 
-  this.drop = function (options, callback) {
-    console.log(options, options.cacheKey)
-    koop.cache.remove('craigslist', options.cacheKey, {layer: 0}, callback)
+  this.fetchNew = function (key, options, callback) {
+    fetch(options.host, options.id, (err, geojson) => {
+      callback(err, geojson)
+      // allow to live in cache for 1 hour
+      koop.cache.insert(key, geojson, { ttl })
+    })
   }
 
-  return this
+  this.fetchAndUpdate = function (key, options, callback) {
+    fetch(options.host, options.id, (err, geojson) => {
+      callback(err, geojson)
+      // allow to live in cache for 1 hour
+      koop.cache.update(key, geojson, { ttl })
+    })
+  }
 }
 
-function fetch (options, callback) {
-  request(`https://${options.city}.craigslist.org/jsonsearch/${types[options.type]}/`, (err, res, body) => {
+function fetch (city, type, callback) {
+  request(`https://${city}.craigslist.org/jsonsearch/${types[type]}/`, (err, res, body) => {
     if (err) return callback(err)
     const apartments = translate(res.body)
     callback(null, apartments)

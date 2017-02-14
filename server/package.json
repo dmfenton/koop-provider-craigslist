@@ -1,0 +1,14 @@
+{
+  "name": "koop-craigslist-server",
+  "version": "1.0.0",
+  "description": "Reference implementation of Koop Craigslist",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Fenton <dfenton@esri.com>",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "koop": "^3.1.0"
+  }
+}
