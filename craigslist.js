@@ -7,31 +7,20 @@ module.exports = function (koop) {
   this.getData = function (req, callback) {
     const key = `craigslist::${req.params.host}::${req.params.id}`
     koop.cache.retrieve(key, req.query, (err, geojson) => {
-      if (err && /resource not found/i.test('Resource not found')) {
-        this.fetchNew(key, req.params, callback)
-      } else if (err) {
-        callback(err)
-      } else if (Date.now() > geojson.metadata.expires) {
-        this.fetchAndUpdate(key, callback)
+      if (geojson) {
+        if (Date.now() > geojson.metadata.expires) this.fetchAndCache(key, req.params, callback)
+        else callback(null, geojson)
       } else {
-        callback(null, geojson)
+        this.fetchAndCache(key, req.params, callback)
       }
     })
   }
 
-  this.fetchNew = function (key, options, callback) {
+  this.fetchAndCache = function (key, options, callback) {
     fetch(options.host, options.id, (err, geojson) => {
       callback(err, geojson)
       // allow to live in cache for 1 hour
-      koop.cache.insert(key, geojson, { ttl })
-    })
-  }
-
-  this.fetchAndUpdate = function (key, options, callback) {
-    fetch(options.host, options.id, (err, geojson) => {
-      callback(err, geojson)
-      // allow to live in cache for 1 hour
-      koop.cache.update(key, geojson, { ttl })
+      koop.cache.upsert(key, geojson, { ttl })
     })
   }
 }
@@ -40,6 +29,10 @@ function fetch (city, type, callback) {
   request(`https://${city}.craigslist.org/jsonsearch/${types[type]}/`, (err, res, body) => {
     if (err) return callback(err)
     const apartments = translate(res.body)
+    apartments.metadata = {
+      name: `${city} ${type}`,
+      description: `Craigslist ${type} listings proxied by https://github.com/dmfenton/koop-provider-craigslist`
+    }
     callback(null, apartments)
   })
 }
