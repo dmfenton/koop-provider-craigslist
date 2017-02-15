@@ -4,9 +4,7 @@ const provider = {
   name: 'craigslist',
   hosts: true,
   Model: require('./craigslist'),
-  status: {
-    version: pkg.version
-  },
+  version: pkg.version,
   type: 'provider'
 }
 
