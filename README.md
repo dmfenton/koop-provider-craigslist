@@ -24,14 +24,18 @@ Types:
 - gigs
 - community
 
-### Server
-1. Go into /server and run `npm install`
-2. Run `npm start`
+## Test it out
+Run server:
+- `npm install`
+- `npm start`
 
-### Docker
-1. From the project root
-1. `npm run docker-build` or `docker build -t koop-provider-yelp .`
-1. `npm run docker-start` or `docker run -it -p 8080:8080 koop-provider-yelp`
+Example API Query:
+- `curl localhost:8080/craigslist/atlanta/apartments/FeatureServer/0/query?returnCountOnly=true`
+
+## With Docker
+
+- `docker build -t koop-provider-craigslist .`
+- `docker run -it -p 8080:8080 koop-provider-craigslist`
 
 ### In an existing Koop Server
 ```js
@@ -44,12 +48,12 @@ const Koop = require('koop')
 const koop = new Koop()
 
 // Install the craigslist Provider
-const yelp = require('koop-craigslist')
-koop.register(yelp)
+const craigslist = require('koop-craigslist')
+koop.register(craigslist)
 
 // Start listening for http traffic
 const config = require('config')
 const port = config.port || 8080
 koop.server.listen(port)
-console.log(`Koop Yelp listening on ${port}`)
+console.log(`Koop Craigslist listening on ${port}`)
 ```

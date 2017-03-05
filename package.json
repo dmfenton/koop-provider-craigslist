@@ -7,10 +7,12 @@
     "test": "test"
   },
   "scripts": {
+    "start": "node server.js",
     "docker-build": "docker build -t koop-craigslist .",
     "docker-start": "docker run -it -p 8080:8080 koop-craigslist"
   },
   "dependencies": {
+    "koop": "^3.4.0",
     "request": "^2.72.0"
   },
   "author": "Daniel Fenton",
@@ -18,14 +20,16 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com:dmfenton/koop-craigslist.git"
+    "url": "https://github.com:dmfenton/koop-provider-craigslist.git"
   },
   "bugs": {
-    "url": "https://github.com/dmfenton/koop-craigslist/issues"
+    "url": "https://github.com/dmfenton/koop-provider-craigslist/issues"
   },
-  "homepage": "https://github.com/dmfenton/koop-craigslist",
+  "homepage": "https://github.com/dmfenton/koop-provider-craigslist",
   "keywords": [
     "koop",
+    "provider",
+    "real estate"
     "craigslist",
     "apartment listings"
   ]

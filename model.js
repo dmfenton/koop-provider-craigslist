@@ -1,40 +1,24 @@
 'use strict'
-const ttl = 60 * 60
+// Cache configured time or 1 hour
+const config = require('config')
+const ttl = (config.craigslist && config.craigslist.ttl) || 60 * 60
 const request = require('request').defaults({gzip: true})
 const types = require('./mappings/types.js')
-module.exports = function (koop) {
+
+module.exports = function () {
   // This is our one public function it's job its to fetch data from craigslist and return as a feature collection
   this.getData = function (req, callback) {
-    const key = `craigslist::${req.params.host}::${req.params.id}`
-    koop.cache.retrieve(key, req.query, (err, geojson) => {
-      if (geojson) {
-        if (Date.now() > geojson.metadata.expires) this.fetchAndCache(key, req.params, callback)
-        else callback(null, geojson)
-      } else {
-        this.fetchAndCache(key, req.params, callback)
+    request(`https://${city}.craigslist.org/jsonsearch/${types[type]}/`, (err, res, body) => {
+      if (err) return callback(err)
+      const apartments = translate(res.body)
+      apartments.ttl = ttl
+      apartments.metadata = {
+        name: `${city} ${type}`,
+        description: `Craigslist ${type} listings proxied by https://github.com/dmfenton/koop-provider-craigslist`
       }
+      callback(null, apartments)
     })
   }
-
-  this.fetchAndCache = function (key, options, callback) {
-    fetch(options.host, options.id, (err, geojson) => {
-      callback(err, geojson)
-      // allow to live in cache for 1 hour
-      koop.cache.upsert(key, geojson, { ttl })
-    })
-  }
-}
-
-function fetch (city, type, callback) {
-  request(`https://${city}.craigslist.org/jsonsearch/${types[type]}/`, (err, res, body) => {
-    if (err) return callback(err)
-    const apartments = translate(res.body)
-    apartments.metadata = {
-      name: `${city} ${type}`,
-      description: `Craigslist ${type} listings proxied by https://github.com/dmfenton/koop-provider-craigslist`
-    }
-    callback(null, apartments)
-  })
 }
 
 // Map accross all elements from a Craigslist respsonse and translate it into a feature collection

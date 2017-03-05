@@ -1,0 +1,6 @@
+{
+  "port": "KOOP_SERVER_PORT",
+  "craigslist": {
+    "ttl": "KOOP_CRAIGSLIST_TTL"
+  }
+}
