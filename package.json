@@ -12,6 +12,7 @@
     "docker-start": "docker run -it -p 8080:8080 koop-craigslist"
   },
   "dependencies": {
+    "config": "^1.25.1",
     "koop": "^3.4.0",
     "request": "^2.72.0"
   },

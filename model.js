@@ -8,7 +8,9 @@ const types = require('./mappings/types.js')
 module.exports = function () {
   // This is our one public function it's job its to fetch data from craigslist and return as a feature collection
   this.getData = function (req, callback) {
-    request(`https://${req.params.host}.craigslist.org/jsonsearch/${types[req.params.id]}/`, (err, res, body) => {
+    const city = req.params.host
+    const type = req.params.id
+    request(`https://${city}.craigslist.org/jsonsearch/${types[type]}/`, (err, res, body) => {
       if (err) return callback(err)
       const apartments = translate(res.body)
       apartments.ttl = ttl
