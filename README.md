@@ -30,12 +30,12 @@ Run server:
 - `npm start`
 
 Example API Query:
-- `curl localhost:8080/craigslist/atlanta/apartments/FeatureServer/0/query?returnCountOnly=true`
+- `curl localhost:80/craigslist/atlanta/apartments/FeatureServer/0/query?returnCountOnly=true`
 
 ## With Docker
 
 - `docker build -t koop-provider-craigslist .`
-- `docker run -it -p 8080:8080 koop-provider-craigslist`
+- `docker run -it -p 80:80 koop-provider-craigslist`
 
 ### In an existing Koop Server
 ```js
