@@ -12,7 +12,7 @@ koop.register(craigslist)
 
 // Start listening for http traffic
 const config = require('config')
-const port = config.port || 80
+const port = config.port || 8080
 koop.server.listen(port)
 
 const message = `
