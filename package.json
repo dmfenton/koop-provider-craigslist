@@ -1,5 +1,5 @@
 {
-  "name": "koop-craigslist",
+  "name": "koop-provider-craigslist",
   "version": "2.0.0",
   "description": "A Craigslist provider for koop ",
   "main": "index.js",
