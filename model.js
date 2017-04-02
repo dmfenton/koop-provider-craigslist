@@ -10,7 +10,7 @@ module.exports = function () {
   this.getData = function (req, callback) {
     const city = req.params.host
     const type = req.params.id
-    request(`https://${city}.craigslist.org/jsonsearch/${types[type]}/`, (err, res, body) => {
+    request(`https://${city}.craigslist.org/jsonsearch/${types[type]}/?map=1`, (err, res, body) => {
       if (err) return callback(err)
       const apartments = translate(res.body)
       apartments.ttl = ttl
