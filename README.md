@@ -1,4 +1,4 @@
-# Koop-Craiglists
+# Koop-Craigslist
 ## A provider for the Craigslist Apartment search API
 
 ## How to use
