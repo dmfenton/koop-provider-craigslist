@@ -8,5 +8,5 @@ module.exports = {
   type: 'provider',
   routes: require('./routes'), // Optional, any additional routes that should be handled by this provider
   Controller: require('./controller'), // Optional, a controller to support unique routes,
-  auth: require('./controller/auth')
+  middleware: require('./middleware')
 }

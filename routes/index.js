@@ -1,7 +1,7 @@
 module.exports = [
   {
-      path: '/auth-server/generateToken',
-      methods: ['get'],
+      path: '/craigslist/auth-server/generateToken',
+      methods: ['get', 'post'],
       handler: 'generateToken'
     }
   ]
