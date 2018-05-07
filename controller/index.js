@@ -40,7 +40,7 @@ module.exports = function (model) {
     }
 
     // Create access token
-    let expires = Date.now() + (3 * 60 * 1000)
+    let expires = Date.now() + (60 * 60 * 1000)
     let json = {
       token: jwt.sign({ exp: Math.floor(expires / 1000),iss: TOKEN_ISSUER, sub: req.query.username}, ACCESS_TOKEN_SECRET),
       expires
