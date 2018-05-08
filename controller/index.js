@@ -1,23 +1,23 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken')
+const namespace = require('../namespace')
+const config = require('config');
+const identityStore = require('../identity-store')
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET
 const TOKEN_ISSUER = process.env.TOKEN_ISSUER
-const USERNAME = process.env.USERNAME || 'dummy'
-const PASSWORD = process.env.PASSWORD || 'password'
+const TOKEN_EXPIRATION_MINUTES = (config[namespace] && config[namespace].TOKEN_EXPIRATION_MINUTES) ? config[namespace].TOKEN_EXPIRATION_MINUTES : 60
 
 module.exports = function (model) {
   this.model = model
 
   /**
    * create the authInfo object with Url specific to context of deployment
-   * @param {*} req 
+   * @param {string} rootUrl the request's protocol and host string, e.g http://example.com
    */
-  this.generateAuthInfo = function(req){
+  this.authInfo = function(rootUrl){
     return {
-      metadata: {
-        authInfo: {
-          isTokenBasedSecurity: true,
-          tokenServicesUrl: `${req.protocol}://${req.headers.host}/craigslist/auth-server/generateToken`
-        }
+      authInfo: {
+        isTokenBasedSecurity: true,
+        tokenServicesUrl: `${rootUrl}/${namespace}/generateToken`
       }
     }
   }
@@ -28,23 +28,32 @@ module.exports = function (model) {
    * @param {*} res 
    */
   this.generateToken = function (req, res) {
-    // Temporary identity management
-    if(req.query.username !== USERNAME || req.query.password !== PASSWORD) {
-      res.status(200).json({
-        'error' :{
-          'code' : 400,
-          'message' : 'Unable to generate token.',
-          'details':['Invalid username or password.']
-        }
-      });
-    }
 
-    // Create access token
-    let expires = Date.now() + (60 * 60 * 1000)
-    let json = {
-      token: jwt.sign({ exp: Math.floor(expires / 1000),iss: TOKEN_ISSUER, sub: req.query.username}, ACCESS_TOKEN_SECRET),
-      expires
-    }
-    res.status(200).json(json)
+    //Validate user's credentials
+    identityStore
+      .validateCredentials(req.query.username, req.query.password)
+      .then(valid => { 
+        // If credentials were not valid, send the error message (AGOL spec)
+        if(!valid) {
+          return res.status(200).json({
+            'error' :{
+              'code' : 400,
+              'message' : 'Unable to generate token.',
+              'details':['Invalid username or password.']
+            }
+          });
+        }
+
+        // Create access token
+        let expires = Date.now() + (TOKEN_EXPIRATION_MINUTES * 60 * 1000)
+        let json = {
+          token: jwt.sign({ exp: Math.floor(expires / 1000),iss: TOKEN_ISSUER, sub: req.query.username}, ACCESS_TOKEN_SECRET),
+          expires
+        }
+        res.status(200).json(json)
+      })
+      .catch(err=>{
+        res.status(500).json(err)
+      })
   }
 }
