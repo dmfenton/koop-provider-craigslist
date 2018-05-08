@@ -1,7 +1,9 @@
+const namespace = require('../namespace')
+
 module.exports = [
   {
-      path: '/craigslist/auth-server/generateToken',
-      methods: ['get', 'post'],
-      handler: 'generateToken'
-    }
-  ]
+    path: `/${namespace}/generateToken`,
+    methods: ['get', 'post'],
+    handler: 'generateToken'
+  }
+]
